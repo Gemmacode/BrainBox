@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BrainBoxApplication.Data;
 using BrainBoxApplication.Data.DTO;
-using BrainBoxApplication.Entity;
+using BrainBoxApplication.Models.Entity;
 using BrainBoxApplication.Service.Interface;
 
 namespace BrainBoxApplication.Service.ProductImplementation

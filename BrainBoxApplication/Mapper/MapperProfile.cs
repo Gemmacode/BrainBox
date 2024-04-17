@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BrainBoxApplication.Data.DTO;
-using BrainBoxApplication.Entity;
+using BrainBoxApplication.Models.Entity;
 
 namespace BrainBoxApplication.Mapper
 {

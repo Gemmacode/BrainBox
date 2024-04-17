@@ -2,9 +2,8 @@
 
 namespace BrainBoxApplication.Service.Interface
 {
-    public interface IUserService
+    public interface IUserService 
     {
         Task<UserDto> AddUser(UserDto userDto);
-        
     }
 }

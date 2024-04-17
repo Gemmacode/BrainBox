@@ -4,7 +4,8 @@ namespace BrainBoxApplication.Data.DTO
 {
     public class CartDto
     {
-        public Guid UserId { get; set; }
-        public ICollection<CartItem> CartItems { get; set; }
+        public Guid Id { get; set; }
+        public Guid ProductId { get; set; }
+        public List<CartItem> CartItems { get; set; }
     }
 }
