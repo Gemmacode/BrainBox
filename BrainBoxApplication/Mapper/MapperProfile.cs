@@ -9,9 +9,9 @@ namespace BrainBoxApplication.Mapper
         public MapperProfile()
         {
             CreateMap<Product, ProductDto>().ReverseMap();
-            CreateMap<CartItem, CartItemDto>().ReverseMap();
+            
             CreateMap<Cart, CartDto>().ReverseMap();
-            CreateMap<User, UserDto>().ReverseMap();
+            
         }
     }
 }
