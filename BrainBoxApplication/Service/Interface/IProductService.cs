@@ -7,8 +7,7 @@ namespace BrainBoxApplication.Service.Interface
     {
         Task<ProductDto> AddProduct(ProductDto productDto);
         Task<ProductDto> GetProductById(Guid id);
-        Task<IEnumerable<ProductDto>> GetAllProducts();
-        Task AddProductToCart(Guid userId, Guid productId);
+        Task<IEnumerable<ProductDto>> GetAllProducts();        
         Task<string> UpdateProduct(Guid id, ProductDto productDto);
         Task<bool> SoftDeleteProduct(Guid id);
         Task<bool> HardDeleteProduct(Guid id);

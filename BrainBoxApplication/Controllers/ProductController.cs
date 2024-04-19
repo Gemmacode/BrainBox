@@ -25,15 +25,7 @@ namespace BrainBoxApplication.Controllers
             return Ok(productDto);
         }
 
-        [HttpPost("Add-Product-Cart")]
-        public async Task<ActionResult> AddProductToCart (Guid userId, Guid productId)
-        {
-            await _productService.AddProductToCart(userId, productId);
-            return Ok();
-        }
-
-        [HttpGet("Get-By-Id")]
-
+        [HttpGet("Get-Product-Id")]
         public async Task<IActionResult> GetProduct(Guid id)
         {
             var productExist = await _productService.ProductExist(id);
@@ -90,18 +82,9 @@ namespace BrainBoxApplication.Controllers
             {
                 return NotFound("Customer does not exist");
             }
-           await _productService.HardDeleteProduct(id);
+            await _productService.HardDeleteProduct(id);
             return Ok("Customer Deleted Successfully");
         }
-
-
-
-
-
-
-
-
-
 
 
     }

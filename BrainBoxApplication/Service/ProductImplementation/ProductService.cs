@@ -32,23 +32,7 @@ namespace BrainBoxApplication.Service.ProductImplementation
             await _db.AddAsync(product);
             await _db.SaveChangesAsync();
             return productDto;
-        }
-
-        public async Task AddProductToCart(Guid userId, Guid productId)
-        {
-            var existingCartItem = await _db.CartItemss
-                .FirstOrDefaultAsync(ci => ci.UserId == userId && ci.ProductId == productId);
-
-            if (existingCartItem != null)
-            {
-                throw new InvalidOperationException("Product already exists in the cart.");
-            }
-
-            var cartItem = new CartItem { UserId = userId, ProductId = productId };
-            await _db.AddAsync(cartItem);
-            await _db.SaveChangesAsync();
-        }
-
+        }      
 
 
         public async Task<ProductDto> GetProductById(Guid id)
@@ -70,7 +54,7 @@ namespace BrainBoxApplication.Service.ProductImplementation
 
     public async Task<string> UpdateProduct(Guid id, ProductDto productDto)
         {
-            var product = await _db.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var product = await _db.Products.FirstOrDefaultAsync(x => x.ProductId == id);
             if (product != null)
             {
                 product.UpdatedAt = DateTime.UtcNow;
@@ -102,7 +86,7 @@ namespace BrainBoxApplication.Service.ProductImplementation
 
         public async Task<bool> SoftDeleteProduct(Guid id)
         {
-            var product = await _db.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var product = await _db.Products.FirstOrDefaultAsync(x => x.ProductId == id);
             if (product != null)
             {
                 product.IsDeleted = true;
@@ -123,7 +107,7 @@ namespace BrainBoxApplication.Service.ProductImplementation
 
         public async Task<bool> ProductExist(Guid id)
         {
-            var product = await _db.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var product = await _db.Products.FirstOrDefaultAsync(x => x.ProductId == id);
             if (product != null)
             {
                 return true;
