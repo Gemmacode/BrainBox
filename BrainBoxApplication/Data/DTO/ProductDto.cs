@@ -3,19 +3,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BrainBoxApplication.Data.DTO
 {
-    public class ProductDto : AddProductDto
+    public class ProductDto 
     {
         public string ProductName { get; set; }
         public ProductType ProductType { get; set; }
-        public decimal ProductPrice { get; set; }
-        public decimal TotalCost { get; set; }
+        public decimal ProductPrice { get; set; }      
+        public int Quantity { get; set; }
         public ProductCategory ProductCategory { get; set; }
 
     }
 
-    public class AddProductDto
+    public class AddProductDto : ProductDto
     {
-        [Key]
+       
         public Guid ProductId { get; set; }
     }
 }

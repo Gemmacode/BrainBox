@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using BrainBoxApplication.Data.DTO;
+using BrainBoxApplication.Models.Entity;
 using BrainBoxApplication.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BrainBoxApplication.Controllers
 {
@@ -21,7 +23,32 @@ namespace BrainBoxApplication.Controllers
         [HttpPost("Add-Product")]
         public async Task<ActionResult<ProductDto>> AddProduct(ProductDto productDto)
         {
-            await _productService.AddProduct(productDto);
+            var context = _productService.GetDbContext();
+
+
+            // Check if the product already exists
+            var productExists = await context.Products.FirstOrDefaultAsync(p => p.ProductName == productDto.ProductName);
+            if (productExists != null)
+            {
+                return Conflict("Product with this name already exists");
+            }
+
+            // Add the product to the Products table and get the generated ProductId
+            var generatedProductId = await _productService.AddProduct(productDto);
+
+            // Create a new entry in the Carts table
+            var cartEntry = new Cart
+            {
+                ProductId = generatedProductId,
+                IsDeleted = false,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+           
+            context.Carts.Add(cartEntry);
+            await context.SaveChangesAsync();
+
             return Ok(productDto);
         }
 

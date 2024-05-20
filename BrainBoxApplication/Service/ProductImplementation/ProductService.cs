@@ -3,6 +3,7 @@ using BrainBoxApplication.Data;
 using BrainBoxApplication.Data.DTO;
 using BrainBoxApplication.Models.Entity;
 using BrainBoxApplication.Service.Interface;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace BrainBoxApplication.Service.ProductImplementation
@@ -18,20 +19,27 @@ namespace BrainBoxApplication.Service.ProductImplementation
             _db = db;
         }
 
-        public async Task<ProductDto> AddProduct(ProductDto productDto)
+        public BrainBoxDbContext GetDbContext()
         {
-            if (await _db.Products.AnyAsync(p => p.ProductName == productDto.ProductName))
-            {
-                throw new InvalidOperationException("A product with the same name already exists.");
-            }
+            return _db;
+        }
+        public async Task<Guid> AddProduct(ProductDto productDto)
+        {
 
             var product = _mapper.Map<Product>(productDto);
             product.IsDeleted = false;
             product.CreatedAt = DateTime.UtcNow;
             product.UpdatedAt = DateTime.UtcNow;
-            await _db.AddAsync(product);
+            product.TotalCost = product.ProductPrice * product.Quantity;
+
+          
+            var products = await _db.Products.OrderByDescending(p => p.CreatedAt).ToListAsync();
+
+            _db.Add(product);
             await _db.SaveChangesAsync();
-            return productDto;
+
+           
+            return product.ProductId;
         }      
 
 
